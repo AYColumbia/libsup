@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 
 namespace libsup
 {
@@ -52,6 +52,6 @@ namespace libsup
         /// <summary>
         /// All composition objects in this <see cref="PresentationCompositionSegment"/> object. The number of elements in this list should be the same as <see cref="CompositionObjectNumber"/>. 
         /// </summary>
-        public List<CompositionObject> CompositionObjects { get; private set; }
+        public ImmutableList<CompositionObject> CompositionObjects { get; private set; }
     }
 }
