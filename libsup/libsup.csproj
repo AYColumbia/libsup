@@ -9,13 +9,13 @@
     <DocumentationFile>bin\Release\netstandard1.4\libsup.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>0.0.1.0</Version>
+    <Version>0.1.0.0</Version>
     <Authors>Michael Armbruster</Authors>
     <Company>Michael Armbruster</Company>
     <Product>libsup</Product>
     <PackageId>libsup</PackageId>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <Description>Provides utilities to parse SUP files (PGS blu-ray subtitles).</Description>
     <PackageLicenseUrl>https://github.com/maki-chan/libsup/blob/master/LICENSE</PackageLicenseUrl>
