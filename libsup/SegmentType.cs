@@ -1,8 +1,11 @@
-﻿namespace libsup
+﻿using JetBrains.Annotations;
+
+namespace libsup
 {
     /// <summary>
     /// Possible segment types for the PGS segments including their byte value.
     /// </summary>
+    [PublicAPI]
     public enum SegmentType : byte
     {
         /// <summary>

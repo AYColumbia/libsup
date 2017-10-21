@@ -2,7 +2,29 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>bin\Debug\netstandard1.4\libsup.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DocumentationFile>bin\Release\netstandard1.4\libsup.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Version>0.0.1.0</Version>
+    <Authors>Michael Armbruster</Authors>
+    <Company>Michael Armbruster</Company>
+    <Product>libsup</Product>
+    <PackageId>libsup</PackageId>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Description>Provides utilities to parse SUP files (PGS blu-ray subtitles).</Description>
+    <PackageLicenseUrl>https://github.com/maki-chan/libsup/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/maki-chan/libsup</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/maki-chan/libsup</RepositoryUrl>
+  </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
     <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
   </ItemGroup>
 </Project>
