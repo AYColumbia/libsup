@@ -1,6 +1,6 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System.Collections.Immutable;
 using System.IO;
-using JetBrains.Annotations;
 
 namespace libsup
 {
@@ -19,30 +19,19 @@ namespace libsup
         public override SegmentType SegmentType => SegmentType.WDS;
 
         /// <summary>
-        /// ID of this window.
+        /// Number of windows defined in this segment.  Added support for multiple
+        /// windows based on the PGS spec. available here:
+        /// https://blog.thescorpius.com/index.php/2017/07/15/presentation-graphic-stream-sup-files-bluray-subtitle-format/
         /// </summary>
-        public byte WindowId { get; }
+        public byte NumberOfWindows { get; internal set; } = 1;
 
         /// <summary>
-        /// X offset from the top left pixel of the window in the screen.
+        /// Gets the windows.
         /// </summary>
-        public ushort WindowHorizontalPosition { get; }
-
-        /// <summary>
-        /// Y offset from the top left pixel of the window in the screen.
-        /// </summary>
-        public ushort WindowVerticalPosition { get; }
-
-        /// <summary>
-        /// Width of the window.
-        /// </summary>
-        public ushort WindowWidth { get; }
-
-        /// <summary>
-        /// Height of the window.
-        /// </summary>
-        public ushort WindowHeight { get; }
-
+        /// <value>
+        /// The windows.
+        /// </value>
+        public ImmutableList<WindowDefinition> Windows { get; }
         /// <inheritdoc />
         public override object Clone()
         {
@@ -50,16 +39,13 @@ namespace libsup
         }
 
         /// <summary>
-        /// Create a clone of an existing <see cref="WindowDefinitionSegment"/>.
+        /// Initializes a new instance of the <see cref="WindowDefinitionSegment"/> class.
         /// </summary>
-        /// <param name="old">The original <see cref="WindowDefinitionSegment"/>.</param>
+        /// <param name="old">The old.</param>
         private WindowDefinitionSegment(WindowDefinitionSegment old)
         {
-            WindowId = old.WindowId;
-            WindowHorizontalPosition = old.WindowHorizontalPosition;
-            WindowVerticalPosition = old.WindowVerticalPosition;
-            WindowWidth = old.WindowWidth;
-            WindowHeight = old.WindowHeight;
+            NumberOfWindows = old.NumberOfWindows;
+            Windows = ImmutableList<WindowDefinition>.Empty.AddRange(old.Windows);
         }
 
         /// <summary>
@@ -78,27 +64,12 @@ namespace libsup
             }
 
             // Read values into temporary byte arrays.
-            var winid = bytes.Slice(0, 1);
-            var horizpos = bytes.Slice(1, 2);
-            var vertipos = bytes.Slice(3, 2);
-            var width = bytes.Slice(5, 2);
-            var height = bytes.Slice(7, 2);
-
-            // Reverse the big-endian encoded arrays if our system is not a big-endian system.
-            if (!BitConverter.IsLittleEndian)
+            var numWindows = bytes.Slice(0, 1);
+            Windows = ImmutableList<WindowDefinition>.Empty;
+            for (var i = 1; i < bytes.Length; i += MinimumLength)
             {
-                Array.Reverse(horizpos);
-                Array.Reverse(vertipos);
-                Array.Reverse(width);
-                Array.Reverse(height);
+                Windows = Windows.Add(new WindowDefinition(bytes.Slice(i, 9)));
             }
-
-            // Map the byte arrays into their corresponding property.
-            WindowId = winid[0];
-            WindowHorizontalPosition = BitConverter.ToUInt16(horizpos, 0);
-            WindowVerticalPosition = BitConverter.ToUInt16(vertipos, 0);
-            WindowWidth = BitConverter.ToUInt16(width, 0);
-            WindowHeight = BitConverter.ToUInt16(height, 0);
         }
     }
 }
